@@ -1,0 +1,56 @@
+<project name="HashMap" default="run" basedir=".">
+	<description>ANT Build file for HashMap.</description>
+	
+	<property name="src" location="." />
+	<property name="build_dir" location="." />
+	<property environment="env" />
+	
+	<target name="compile" depends="clean">
+		<mkdir dir="${build_dir}" />
+		<javac srcdir="${src}" destdir="${build_dir}">
+            <classpath>
+                <pathelement path="${src}/src/com/kevinbohinski/algs/" />
+            </classpath>
+		</javac>
+	</target>
+	
+	<target name="clean">
+		<delete>
+			<fileset dir="${build_dir}" includes="**/*.class" />
+			<fileset dir="${build_dir}" includes="*.*~" />
+		</delete>
+		<delete dir="${build_dir}/META-INF" failonerror="false"/>
+        <delete dir="${build_dir}/com" failonerror="false"/>
+	</target>
+    
+    <target name="cleaneclipse" depends="clean">
+        <delete>
+			<fileset dir="${build_dir}" includes=".classpath" />
+			<fileset dir="${build_dir}" includes=".project" />
+		</delete>
+		<delete dir="${build_dir}/.settings" failonerror="false"/>
+        <delete dir="${build_dir}/bin" failonerror="false"/>
+    </target>
+	
+	<target name="author">
+		<echo message="Kevin Bohinski"/>
+	</target>
+    
+    <target name="project">
+		<echo message="HashMap"/>
+	</target>
+	
+	<target name="run" depends="compile, project, author">
+		<java classname="com.kevinbohinski.algs.Driver" classpath="." fork="yes">
+		</java>
+	</target>
+	
+	<target name="jar">
+		<antcall target="clean">
+		</antcall>
+		<antcall target="compile">
+		</antcall>
+		<jar jarfile="./kbohinski-HashMap.jar" includes="test.txt **/*.java/** **/*.md/** **/*.pdf/** **/*.xml/**" basedir="." />
+	</target>
+	
+</project>
