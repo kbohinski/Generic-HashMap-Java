@@ -20,7 +20,8 @@ import java.util.Arrays;
 
 public class HashMap<K, V> {
 
-	private final static int DEFAULT_CAPACITY = 100;
+	/* Modular hashing, using prime for less collisions */
+	private final static int DEFAULT_CAPACITY = 101;
 	private int size;
 	private int numEntries;
 	private HashMapEntry<K, V> entries[];
@@ -47,12 +48,13 @@ public class HashMap<K, V> {
 
 	/**
 	 * Returns a hashcode suited for the size of the HashMap.
+	 * http://algs4.cs.princeton.edu/34hash/
 	 * 
 	 * @param key
 	 * @return The hashcode suited for this instance of a HashMap.
 	 */
 	private int getHash(K key) {
-		return key.hashCode() % size;
+		return (key.hashCode() & 0x7fffffff) % size;
 	}
 
 	/**
